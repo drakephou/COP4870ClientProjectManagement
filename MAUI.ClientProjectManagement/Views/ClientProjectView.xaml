@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUI.ClientProjectManagement.Views.ClientProjectView"
+             Title="Clients and Projects"
+             NavigatedFrom="OnLeaving"
+             NavigatedTo="OnArriving">
+    <VerticalStackLayout>
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Text="Back to Main Menu" Clicked="BackButtonClicked"/>
+            <Button Text="Refresh"
+                    Clicked="RefreshClicked"
+                    Grid.Column="2"/>
+        </Grid>
+        
+        <Label 
+            Text="This is the Clients and Projects View"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+
+            <Label Text="Current Clients"
+                   Grid.Column="0"
+                   Grid.Row="0"
+                   HorizontalOptions="Center"/>
+
+            <Label Text="Projects of Selected Client"
+                   Grid.Column="1"
+                   Grid.Row="0"
+                   HorizontalOptions="Center"/>
+
+            <!-- List of Clients -->
+            <ListView
+                ItemsSource="{Binding Path=Clients}"
+                SelectedItem="{Binding Path=SelectedClient}"
+                Grid.Column="0"
+                Grid.Row="1">
+            </ListView>
+
+            <!-- List of Projects-->
+            <ListView
+                ItemsSource="{Binding Path=Projects}"
+                SelectedItem="{Binding Path=SelectedProject}"
+                Grid.Column="1"
+                Grid.Row="1">
+            </ListView>
+
+        </Grid>
+
+        <!-- Button Bar for Clients -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+                
+               
+            <Button Text="Add Client"
+                    Grid.Column="0"
+                    Clicked="AddClientClicked"/>
+            <Button Text="Edit Client"
+                    Grid.Column="1"
+                    Clicked="EditClientClicked"/>
+            <Button Text="Delete Client"
+                    Grid.Column="2"
+                    Clicked="DeleteClientClicked"/>
+            <Button Text="Add Project"
+                    Grid.Column="3"
+                    Clicked="AddProjectClicked"/>
+            <Button Text="Edit Project"
+                    Grid.Column="4"
+                    Clicked="EditProjectClicked"/>
+            <Button Text="Delete Project"
+                    Grid.Column="5"
+                    Clicked="DeleteProjectClicked"/>
+
+
+
+            <Button Text="Filter Project by Selected Client"
+                    Grid.Row="1"
+                    Grid.Column="5"
+                    Clicked="FilterClicked"/>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

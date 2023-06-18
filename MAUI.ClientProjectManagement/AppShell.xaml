@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MAUI.ClientProjectManagement.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MAUI.ClientProjectManagement"
+    xmlns:local2="clr-namespace:MAUI.ClientProjectManagement.Views"
+    Shell.FlyoutBehavior="Disabled">
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+
+    <ShellContent
+       Title="Clients and Projects"
+       ContentTemplate="{DataTemplate local2:ClientProjectView}"
+       Route="ClientProject" />
+
+    <ShellContent
+        Title="Employees and Time Entries"
+        ContentTemplate="{DataTemplate local2:EmployeeTimeView}"
+        Route="EmployeeTime" />
+    
+    <ShellContent
+        Title="Add New Client"
+        ContentTemplate="{DataTemplate local2:AddClientView}"
+        Route="AddClient" />
+
+    <ShellContent
+        Title="Edit Existing Client"
+        ContentTemplate="{DataTemplate local2:EditClientView}"
+        Route="EditClient" />
+
+    <ShellContent
+        Title="Add New Project"
+        ContentTemplate="{DataTemplate local2:AddProjectView}"
+        Route="AddProject"/>
+
+    <ShellContent
+        Title="Edit Existing Project"
+        ContentTemplate="{DataTemplate local2:EditProjectView}"
+        Route="EditProject"/>
+
+    <ShellContent
+        Title="Add New Employee"
+        ContentTemplate="{DataTemplate local2:AddEmployeeView}"
+        Route="AddEmployee"/>
+
+    <ShellContent
+        Title="Edit Existing Employee"
+        ContentTemplate="{DataTemplate local2:EditEmployeeView}"
+        Route="EditEmployee"/>
+
+    <ShellContent
+        Title="Add New Time Entry"
+        ContentTemplate="{DataTemplate local2:AddTimeEntryView}"
+        Route="AddTimeEntry"/>
+
+    <ShellContent
+        Title="Edit Existing Time Entry"
+        ContentTemplate="{DataTemplate local2:EditTimeEntryView}"
+        Route="EditTimeEntry"/>
+
+</Shell>

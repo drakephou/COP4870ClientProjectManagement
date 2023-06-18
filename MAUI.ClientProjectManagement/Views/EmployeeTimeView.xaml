@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MAUI.ClientProjectManagement.Views.EmployeeTimeView"
+             Title="Employees and Time Entries"
+             NavigatedFrom="OnLeaving"
+             NavigatedTo="OnArriving">
+    <VerticalStackLayout>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Text="Back to Main Menu" Clicked="BackButtonClicked"/>
+            <Button Text="Refresh"
+                    Clicked="RefreshClicked"
+                    Grid.Column="2"/>
+        </Grid>
+
+        <Label 
+            Text="This is the Employees and Time Entries View"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+
+            <Label Text="Current Employees"
+                   Grid.Column="0"
+                   Grid.Row="0"
+                   HorizontalOptions="Center"/>
+
+            <Label Text="Current Time Entries"
+                   Grid.Column="1"
+                   Grid.Row="0"
+                   HorizontalOptions="Center"/>
+
+            <!-- List of Clients -->
+            <ListView
+                ItemsSource="{Binding Path=Employees}"
+                SelectedItem="{Binding Path=SelectedEmployee}"
+                Grid.Column="0"
+                Grid.Row="1">
+            </ListView>
+
+            <!-- List of Projects-->
+            <ListView
+                ItemsSource="{Binding Path=TimeEntries}"
+                SelectedItem="{Binding Path=SelectedTimeEntry}"
+                Grid.Column="1"
+                Grid.Row="1">
+            </ListView>
+
+        </Grid>
+
+        <!-- Button Bar for Clients -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+
+            <Button Text="Add Employee"
+                    Grid.Column="0"
+                    Clicked="AddEmployeeClicked"/>
+            <Button Text="Edit Employee"
+                    Grid.Column="1"
+                    Clicked="EditEmployeeClicked"/>
+            <Button Text="Delete Employee"
+                    Grid.Column="2"
+                    Clicked="DeleteEmployeeClicked"/>
+            <Button Text="Add Time Entry"
+                    Grid.Column="3"
+                    Clicked="AddTimeEntryClicked"/>
+            <Button Text="Edit Time Entry"
+                    Grid.Column="4"
+                    Clicked="EditTimeEntryClicked"/>
+            <Button Text="Delete Time Entry"
+                    Grid.Column="5"
+                    Clicked="DeleteTimeEntryClicked"/>
+
+
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>
