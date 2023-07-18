@@ -23,12 +23,15 @@ public partial class ClientProjectView : ContentPage
 
     private void EditClientClicked(object sender, EventArgs e)
     {
+        /*
         if( (BindingContext as ClientProjectViewModel).SelectedClient != null)
         {
+            
             (BindingContext as ClientProjectViewModel).PassSelectedClient();
             Shell.Current.GoToAsync("//EditClient");
         }
-        
+        */
+        (BindingContext as ClientProjectViewModel).RefreshClients();
     }
 
     private void RefreshClicked(object sender, EventArgs e)
@@ -36,47 +39,63 @@ public partial class ClientProjectView : ContentPage
         (BindingContext as ClientProjectViewModel).Refresh();
     }
 
-    private void OnLeaving(object sender, NavigatedFromEventArgs e)
-    {
-        BindingContext = null;
-    }
-
     private void OnArriving(object sender, NavigatedToEventArgs e)
     {
-        BindingContext = new ClientProjectViewModel();
+        //BindingContext = new ClientProjectViewModel();
+        (BindingContext as ClientProjectViewModel).Refresh();
     }
 
     private void DeleteClientClicked(object sender, EventArgs e)
     {
-        (BindingContext as ClientProjectViewModel).DeleteClient();
+        //(BindingContext as ClientProjectViewModel).DeleteClient();
+        (BindingContext as ClientProjectViewModel).SelectedClient=null;
+        (BindingContext as ClientProjectViewModel).RefreshClients();
     }
 
     private void DeleteProjectClicked(object sender, EventArgs e)
     {
-        (BindingContext as ClientProjectViewModel).DeleteProject();
+        (BindingContext as ClientProjectViewModel).Refresh();
     }
 
     private void AddProjectClicked(object sender, EventArgs e)
     {
+        /*
         if ( (BindingContext as ClientProjectViewModel).SelectedClient != null)
         {
             (BindingContext as ClientProjectViewModel).PassSelectedClient();
-            Shell.Current.GoToAsync("//AddProject");
+            Shell.Current.GoToAsync($"//AddProject");
         }
+        */
+        (BindingContext as ClientProjectViewModel).RefreshProjects();
+        
     }
 
     private void EditProjectClicked(object sender, EventArgs e)
     {
+        /*
         if ( (BindingContext as ClientProjectViewModel).SelectedProject != null )
         {
             (BindingContext as ClientProjectViewModel).PassSelectedProject();
             Shell.Current.GoToAsync("//EditProject");
         }
+        */
 
+        (BindingContext as ClientProjectViewModel).RefreshProjects();
     }
 
     private void FilterClicked(object sender, EventArgs e)
     {
+        //(BindingContext as ClientProjectViewModel).RefreshProjects();
         (BindingContext as ClientProjectViewModel).Filter();
+    }
+
+    private void SearchClicked(object sender, EventArgs e)
+    {
+        (BindingContext as ClientProjectViewModel).Search();
+    }
+
+    private void UnfilterClicked(object sender, EventArgs e)
+    {
+        (BindingContext as ClientProjectViewModel).Unfilter();
     }
 }

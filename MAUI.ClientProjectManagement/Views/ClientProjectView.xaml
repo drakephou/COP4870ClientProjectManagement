@@ -3,14 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MAUI.ClientProjectManagement.Views.ClientProjectView"
              Title="Clients and Projects"
-             NavigatedFrom="OnLeaving"
              NavigatedTo="OnArriving">
     <VerticalStackLayout>
         
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="8*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
 
@@ -33,25 +32,94 @@
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
 
 
-            <Label Text="Current Clients"
+            <Label Text="List of Clients"
                    Grid.Column="0"
                    Grid.Row="0"
                    HorizontalOptions="Center"/>
 
-            <Label Text="Projects of Selected Client"
+            <Grid Grid.Column="0"
+                  Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Entry Grid.Column="0"
+                       Text="{Binding Path=SearchName}"/>
+                <Button Grid.Column="1"
+                        Text="Search"
+                        Clicked="SearchClicked"/>
+                <Button Grid.Column="2"
+                    Text="Add Client"
+                    Clicked="AddClientClicked"/>
+            </Grid>
+
+
+            <Label Text="List of Projects"
                    Grid.Column="1"
                    Grid.Row="0"
                    HorizontalOptions="Center"/>
+
+            <Grid Grid.Column="1"
+                  Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="2"
+                        Text="View All Projects"
+                        Clicked="UnfilterClicked"/>
+            </Grid>
 
             <!-- List of Clients -->
             <ListView
                 ItemsSource="{Binding Path=Clients}"
                 SelectedItem="{Binding Path=SelectedClient}"
                 Grid.Column="0"
-                Grid.Row="1">
+                Grid.Row="2">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text="{Binding Path=Display}"/>
+                                <Button Grid.Column="1"
+                                        Text="Add Project"
+                                        Clicked="AddProjectClicked"
+                                        Command="{Binding Path=AddProjectCommand}"
+                                        CommandParameter="{Binding}"/>
+                                <Button Grid.Column="2"
+                                        Text="View Projects"
+                                        Clicked="FilterClicked"
+                                        Command="{Binding Path=FilterProjectsCommand}"
+                                        CommandParameter="{Binding}"/>
+                                <Button Grid.Column="3"
+                                        Text="Edit"
+                                        Clicked="EditClientClicked"
+                                        Command="{Binding Path=EditClientCommand}"
+                                        CommandParameter="{Binding}"/>
+                                        
+                                <Button Grid.Column="4"
+                                        Text="Delete"
+                                        Command="{Binding Path=DeleteClientCommand}"
+                                        CommandParameter="{Binding}"
+                                        Clicked="DeleteClientClicked"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
 
             <!-- List of Projects-->
@@ -59,7 +127,39 @@
                 ItemsSource="{Binding Path=Projects}"
                 SelectedItem="{Binding Path=SelectedProject}"
                 Grid.Column="1"
-                Grid.Row="1">
+                Grid.Row="2">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0"
+                                       Text="{Binding Path=Display}"/>
+                                <Button Grid.Column="1"
+                                        Text="Timer"
+                                        Command="{Binding Path=TimerCommand}"
+                                        CommandParameter="{Binding}"/>
+                                <Button Grid.Column="2"
+                                        Text="Edit"
+                                        Clicked="EditProjectClicked"
+                                        Command="{Binding Path=EditProjectCommand}"
+                                        CommandParameter="{Binding}"/>
+                                <Button Grid.Column="3"
+                                        Text="Delete"
+                                        Clicked="DeleteProjectClicked"
+                                        Command="{Binding Path=DeleteProjectCommand}"
+                                        CommandParameter="{Binding}"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
             </ListView>
 
         </Grid>
@@ -81,31 +181,39 @@
             </Grid.RowDefinitions>
                 
                
-            <Button Text="Add Client"
-                    Grid.Column="0"
-                    Clicked="AddClientClicked"/>
+            <!--
             <Button Text="Edit Client"
                     Grid.Column="1"
                     Clicked="EditClientClicked"/>
+            -->
+            
+            <!--
             <Button Text="Delete Client"
                     Grid.Column="2"
                     Clicked="DeleteClientClicked"/>
+            -->
+            
+            <!--
             <Button Text="Add Project"
                     Grid.Column="3"
                     Clicked="AddProjectClicked"/>
+            -->
+            
+            <!--
             <Button Text="Edit Project"
                     Grid.Column="4"
                     Clicked="EditProjectClicked"/>
+            -->
+            
+            <!--
             <Button Text="Delete Project"
                     Grid.Column="5"
                     Clicked="DeleteProjectClicked"/>
+            -->
 
 
 
-            <Button Text="Filter Project by Selected Client"
-                    Grid.Row="1"
-                    Grid.Column="5"
-                    Clicked="FilterClicked"/>
+
         </Grid>
     </VerticalStackLayout>
 </ContentPage>

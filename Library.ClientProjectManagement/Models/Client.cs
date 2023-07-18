@@ -39,12 +39,12 @@ namespace Library.ClientProjectManagement.Models
 		{
 			return //$"{Id}. {Name}";
 				
-				"Id: " + Id
-				+ "\nOpenDate: " + OpenDate
-				+ "\nClosedDate: " + ClosedDate
-				+ "\nIsActive: " + IsActive
+				"ClientId: " + Id
 				+ "\nName: " + Name
-				+ "\nNotes: " + Notes + "\n";
+				+ "\nNotes: " + Notes
+				+ "\nOpenDate: " + OpenDate.ToShortDateString()
+				+ "\nClosedDate: " + ClosedDate.ToShortDateString()
+				+ "\nIsActive: " + IsActive;
 				
 		}
 		

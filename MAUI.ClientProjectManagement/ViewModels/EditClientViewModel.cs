@@ -13,6 +13,16 @@ namespace MAUI.ClientProjectManagement.ViewModels
 {
     public class EditClientViewModel : INotifyPropertyChanged
     {
+        public EditClientViewModel(int clientId)
+        {
+            SelectedClient = ClientService.Current.GetClient(clientId);
+            OpenMonth = SelectedClient.OpenDate.Month;
+            OpenDay = SelectedClient.OpenDate.Day;
+            OpenYear = SelectedClient.OpenDate.Year;
+            ClosedDay = SelectedClient.ClosedDate.Day;
+            ClosedMonth = SelectedClient.ClosedDate.Month;
+            ClosedYear = SelectedClient.ClosedDate.Year;
+        }
         public ObservableCollection<Client> Clients
         {
             get
@@ -21,44 +31,38 @@ namespace MAUI.ClientProjectManagement.ViewModels
             }
         }
 
-        public Client SelectedClient 
-        {
-            get
-            {
-                return ClientService.Current.SelectedClient; 
-            }
-        }
+        public Client SelectedClient { get; set; }
 
-        private int openMonth = ClientService.Current.SelectedClient.OpenDate.Month;
+        private int openMonth;
         public int OpenMonth{ get { return openMonth; }
                               set { openMonth = value; } }
 
-        private int openDay = ClientService.Current.SelectedClient.OpenDate.Day;
+        private int openDay;
         public int OpenDay { get { return openDay; }
                              set { openDay = value; } }
 
-        private int openYear = ClientService.Current.SelectedClient.OpenDate.Year;
+        private int openYear;
         public int OpenYear
         {
             get { return openYear; }
             set { openYear = value; }
         }
 
-        private int closedDay = ClientService.Current.SelectedClient.ClosedDate.Day;
+        private int closedDay;
         public int ClosedDay
         {
             get { return closedDay; }
             set { closedDay = value; }
         }
 
-        private int closedMonth = ClientService.Current.SelectedClient.ClosedDate.Month;
+        private int closedMonth;
         public int ClosedMonth
         {
             get { return closedMonth; }
             set { closedMonth = value; }
         }
 
-        private int closedYear = ClientService.Current.SelectedClient.ClosedDate.Year;
+        private int closedYear;
         public int ClosedYear
         {
             get { return closedYear; }

@@ -13,6 +13,18 @@ namespace MAUI.ClientProjectManagement.ViewModels
 {
     public class EditProjectViewModel : INotifyPropertyChanged
     {
+        public EditProjectViewModel(int projectId) 
+        {
+            SelectedProject = ProjectService.Current.GetProject(projectId);
+            OpenMonth = SelectedProject.OpenDate.Month;
+            OpenDay = SelectedProject.OpenDate.Day;
+            OpenYear = SelectedProject.OpenDate.Year;
+            ClosedMonth = SelectedProject.ClosedDate.Month;
+            ClosedDay = SelectedProject.ClosedDate.Day;
+            ClosedYear = SelectedProject.ClosedDate.Year;
+        }
+
+        /*
         public ObservableCollection<Project> Projects
         {
             get
@@ -20,51 +32,54 @@ namespace MAUI.ClientProjectManagement.ViewModels
                 return new ObservableCollection<Project>(ProjectService.Current.Projects);
             }
         }
+        */
 
+        private Project selectedProject;
         public Project SelectedProject
         {
             get
             {
-                return ProjectService.Current.SelectedProject;
+                return selectedProject;
             }
+            set { selectedProject = value; }
         }
 
-        private int openMonth = ProjectService.Current.SelectedProject.OpenDate.Month;
+        private int openMonth;
         public int OpenMonth
         {
             get { return openMonth; }
             set { openMonth = value; }
         }
 
-        private int openDay = ProjectService.Current.SelectedProject.OpenDate.Day;
+        private int openDay;
         public int OpenDay
         {
             get { return openDay; }
             set { openDay = value; }
         }
 
-        private int openYear = ProjectService.Current.SelectedProject.OpenDate.Year;
+        private int openYear;
         public int OpenYear
         {
             get { return openYear; }
             set { openYear = value; }
         }
 
-        private int closedDay = ProjectService.Current.SelectedProject.ClosedDate.Day;
+        private int closedDay;
         public int ClosedDay
         {
             get { return closedDay; }
             set { closedDay = value; }
         }
 
-        private int closedMonth = ProjectService.Current.SelectedProject.ClosedDate.Month;
+        private int closedMonth;
         public int ClosedMonth
         {
             get { return closedMonth; }
             set { closedMonth = value; }
         }
 
-        private int closedYear = ProjectService.Current.SelectedProject.ClosedDate.Year;
+        private int closedYear;
         public int ClosedYear
         {
             get { return closedYear; }

@@ -75,7 +75,7 @@ namespace Library.ClientProjectManagement.Services
         public bool clientIdExists(int clientId)
         {
             bool found = false;
-            if( (projects.FirstOrDefault(e => e.ClientId ==clientId)) != null )
+            if( (projects.FirstOrDefault(e => e.ClientId == clientId)) != null )
             {
                 found = true;
             }
@@ -281,10 +281,27 @@ namespace Library.ClientProjectManagement.Services
             }
         }
 
-        public List<Project> Filter(int clientId)
+        private int filterId = -1;
+        public int FilterId
         {
-            if(clientId > 0)
-                return Projects.Where(s => s.ClientId == clientId).ToList();
+            get
+            {
+                return filterId;
+            }
+            set
+            {
+                filterId = value;
+            }
+        }
+
+        public void Filter(int id)
+        {
+            FilterId = id;
+        }
+        public List<Project> Filter()
+        {
+            if(filterId >= 0)
+                return Projects.Where(s => s.ClientId == FilterId).ToList();
             else
                 return Projects;
         }

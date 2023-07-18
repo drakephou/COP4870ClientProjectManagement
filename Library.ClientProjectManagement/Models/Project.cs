@@ -41,13 +41,13 @@ namespace Library.ClientProjectManagement.Models
 
         public override string ToString()
         {
-            return "ClientId: " + ClientId
-            + "\nId: " + Id
-            + "\nOpenDate: " + OpenDate
-            + "\nClosedDate: " + ClosedDate
-            + "\nIsActive: " + IsActive
+            return "ProjectId: " + Id
+            + "\nClientId: " + ClientId
             + "\nShortName: " + ShortName
-            + "\nLongName: " + LongName + "\n";
+            + "\nLongName: " + LongName
+            + "\nOpenDate: " + OpenDate.ToShortDateString()
+            + "\nClosedDate: " + ClosedDate.ToShortDateString()
+            + "\nIsActive: " + IsActive;
         }
     }
 }

@@ -2,14 +2,13 @@ using MAUI.ClientProjectManagement.ViewModels;
 
 namespace MAUI.ClientProjectManagement.Views;
 
+[QueryProperty(nameof(ClientId), "clientId")]
 public partial class AddProjectView : ContentPage
 {
+    public int ClientId { get; set; }
 	public AddProjectView()
 	{
 		InitializeComponent();
-		BindingContext = new AddProjectViewModel();
-
-
     }
     private void OnLeaving(object sender, NavigatedFromEventArgs e)    
     {    
@@ -18,7 +17,7 @@ public partial class AddProjectView : ContentPage
 
     private void OnArriving(object sender, NavigatedToEventArgs e)
     {
-        BindingContext = new AddProjectViewModel();        
+        BindingContext = new AddProjectViewModel(ClientId);        
     }
 
     private void BackButtonClicked(object sender, EventArgs e)

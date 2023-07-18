@@ -2,12 +2,13 @@ using MAUI.ClientProjectManagement.ViewModels;
 
 namespace MAUI.ClientProjectManagement.Views;
 
+[QueryProperty(nameof(ClientId), "clientId")]
 public partial class EditClientView : ContentPage
 {
+    public int ClientId { get; set; }
 	public EditClientView()
 	{
 		InitializeComponent();
-        BindingContext = new EditClientViewModel();
 	}
     private void BackButtonClicked(object sender, EventArgs e)
     {
@@ -29,6 +30,6 @@ public partial class EditClientView : ContentPage
 
     private void OnArriving(object sender, NavigatedToEventArgs e)
     {
-        BindingContext = new EditClientViewModel();
+        BindingContext = new EditClientViewModel(ClientId);
     }
 }

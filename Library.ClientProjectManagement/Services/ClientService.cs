@@ -24,7 +24,8 @@ namespace Library.ClientProjectManagement.Services
         }
 
         private List<Client> clients;
-        private Client? selectedClient;
+
+       
         private ClientService()
         {
             clients = new List<Client>();
@@ -58,6 +59,8 @@ namespace Library.ClientProjectManagement.Services
             set { clients = value; }
         }
 
+        //To be removed after implementing ways to pass ClientId
+        private Client? selectedClient;
         public Client? SelectedClient
         {
             get
@@ -66,6 +69,7 @@ namespace Library.ClientProjectManagement.Services
             }
             set { selectedClient = value; }
         }
+        
 
         public Client? GetClient(int id)
         { 

@@ -2,12 +2,14 @@ using MAUI.ClientProjectManagement.ViewModels;
 
 namespace MAUI.ClientProjectManagement.Views;
 
+[QueryProperty(nameof(ProjectId), "projectId")]
 public partial class EditProjectView : ContentPage
 {
+    public int ProjectId { get; set; }
 	public EditProjectView()
 	{
 		InitializeComponent();
-		BindingContext = new EditProjectViewModel();
+		//BindingContext = new EditProjectViewModel();
 	}
 
     private void BackButtonClicked(object sender, EventArgs e)
@@ -28,7 +30,7 @@ public partial class EditProjectView : ContentPage
 
     private void OnArriving(object sender, NavigatedToEventArgs e)
     {
-        BindingContext = new EditProjectViewModel();
+        BindingContext = new EditProjectViewModel(ProjectId);
     }
 
 }

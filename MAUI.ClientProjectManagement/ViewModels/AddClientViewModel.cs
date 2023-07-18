@@ -34,7 +34,7 @@ namespace MAUI.ClientProjectManagement.ViewModels
             }
         }
 
-        public int OpenMonth { get; set; }
+        public int OpenMonth { get; set; } 
         public int OpenDay { get; set; }
         public int OpenYear { get; set; }
         public int ClosedMonth { get; set; }
@@ -47,44 +47,44 @@ namespace MAUI.ClientProjectManagement.ViewModels
 
         public void AddClient()
         {
-            if (OpenYear > 9999)
-                OpenYear = 9999;
-            else if (OpenYear < 1)
-                OpenYear = 1;
-            if (OpenMonth < 1)
-                OpenMonth = 1;
-            else if (OpenMonth > 12)
-                OpenMonth = 12;
-            if (OpenDay < 1)
-                OpenDay = 1;
-            else if(OpenDay > DateTime.DaysInMonth(OpenYear,OpenMonth) )
-                OpenDay = DateTime.DaysInMonth(OpenYear,OpenMonth);
+                if (OpenYear > 9999)
+                    OpenYear = 9999;
+                else if (OpenYear < 1)
+                    OpenYear = 1;
+                if (OpenMonth < 1)
+                    OpenMonth = 1;
+                else if (OpenMonth > 12)
+                    OpenMonth = 12;
+                if (OpenDay < 1)
+                    OpenDay = 1;
+                else if (OpenDay > DateTime.DaysInMonth(OpenYear, OpenMonth))
+                    OpenDay = DateTime.DaysInMonth(OpenYear, OpenMonth);
 
-            if (ClosedYear > 9999)
-                ClosedYear = 9999;
-            else if (ClosedYear < 1)
-                ClosedYear = 1;
-            if (ClosedMonth < 1)
-                ClosedMonth = 1;
-            else if (ClosedMonth > 12)
-                ClosedMonth = 12;
-            if (ClosedDay < 1)
-                ClosedDay = 1;
-            else if (OpenDay > DateTime.DaysInMonth(ClosedYear, OpenMonth))
-                ClosedDay = DateTime.DaysInMonth(ClosedYear, OpenMonth);
+                if (ClosedYear > 9999)
+                    ClosedYear = 9999;
+                else if (ClosedYear < 1)
+                    ClosedYear = 1;
+                if (ClosedMonth < 1)
+                    ClosedMonth = 1;
+                else if (ClosedMonth > 12)
+                    ClosedMonth = 12;
+                if (ClosedDay < 1)
+                    ClosedDay = 1;
+                else if (OpenDay > DateTime.DaysInMonth(ClosedYear, OpenMonth))
+                    ClosedDay = DateTime.DaysInMonth(ClosedYear, OpenMonth);
 
-            ClientService.Current.AddClient(new Client
-            {
-                Id = NewClientId,
-                OpenDate= new DateTime(OpenYear,OpenMonth,OpenDay),
-                ClosedDate= new DateTime(ClosedYear,ClosedMonth,ClosedDay),
-                IsActive = IsActive,
-                Name = Name,
-                Notes = Notes
-            });
-            Reset();
+                ClientService.Current.AddClient(new Client
+                {
+                    Id = NewClientId,
+                    OpenDate = new DateTime(OpenYear, OpenMonth, OpenDay),
+                    ClosedDate = new DateTime(ClosedYear, ClosedMonth, ClosedDay),
+                    IsActive = IsActive,
+                    Name = Name,
+                    Notes = Notes
+                });
         }
 
+        
         public void Reset()
         {
             NotifyPropertyChanged("NewClientId");
@@ -101,6 +101,7 @@ namespace MAUI.ClientProjectManagement.ViewModels
             NotifyPropertyChanged("Name");
             NotifyPropertyChanged("Notes");
         }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")

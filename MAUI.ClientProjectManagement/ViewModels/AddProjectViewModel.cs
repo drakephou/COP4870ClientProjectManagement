@@ -11,8 +11,15 @@ using System.Threading.Tasks;
 
 namespace MAUI.ClientProjectManagement.ViewModels
 {
+    [QueryProperty(nameof(SelectedClientId), "selectedClientId")]
     public class AddProjectViewModel : INotifyPropertyChanged
     {
+        public AddProjectViewModel(int clientId)
+        {
+            SelectedClientId = clientId;
+        }
+
+        /*
         public ObservableCollection<Project> Projects
         {
             get
@@ -20,14 +27,9 @@ namespace MAUI.ClientProjectManagement.ViewModels
                 return new ObservableCollection<Project>(ProjectService.Current.Projects);
             }
         }
+        */
 
-        public int SelectedClientId
-        {
-            get
-            {
-                return ClientService.Current.SelectedClient.Id;
-            }
-        }
+        public int SelectedClientId { get; set; }
 
         public int NewProjectId
         {
