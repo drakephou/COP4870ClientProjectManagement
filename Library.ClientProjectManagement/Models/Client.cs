@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Library.ClientProjectManagement.DTO;
+using System;
 
 namespace Library.ClientProjectManagement.Models
 {
@@ -20,6 +21,16 @@ namespace Library.ClientProjectManagement.Models
 			IsActive = false;
 			Name = string.Empty;
 			Notes = string.Empty;
+		}
+
+		public Client(ClientDTO dto)
+		{
+			this.Id = dto.Id;
+			this.OpenDate = dto.OpenDate;
+			this.ClosedDate = dto.ClosedDate;
+			this.IsActive = dto.IsActive;
+			this.Name = dto.Name;
+			this.Notes = dto.Notes;
 		}
 
 		/*

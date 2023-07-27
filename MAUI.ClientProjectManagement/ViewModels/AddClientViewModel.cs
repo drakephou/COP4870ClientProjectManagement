@@ -1,4 +1,5 @@
-﻿using Library.ClientProjectManagement.Models;
+﻿using Library.ClientProjectManagement.DTO;
+using Library.ClientProjectManagement.Models;
 using Library.ClientProjectManagement.Services;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,11 @@ namespace MAUI.ClientProjectManagement.ViewModels
 {
     public class AddClientViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<Client> Clients
+        public ObservableCollection<ClientDTO> Clients
         {
             get
             {
-                return new ObservableCollection<Client>(ClientService.Current.Clients);
+                return new ObservableCollection<ClientDTO>(ClientService.Current.Clients);
             }
         }
 
@@ -73,7 +74,13 @@ namespace MAUI.ClientProjectManagement.ViewModels
                 else if (OpenDay > DateTime.DaysInMonth(ClosedYear, OpenMonth))
                     ClosedDay = DateTime.DaysInMonth(ClosedYear, OpenMonth);
 
-                ClientService.Current.AddClient(new Client
+            if (IsActive == null) IsActive = false;
+
+                if (Name == null) Name = string.Empty;
+
+                if (Notes == null) Notes = string.Empty;
+
+                ClientService.Current.AddClient(new ClientDTO
                 {
                     Id = NewClientId,
                     OpenDate = new DateTime(OpenYear, OpenMonth, OpenDay),

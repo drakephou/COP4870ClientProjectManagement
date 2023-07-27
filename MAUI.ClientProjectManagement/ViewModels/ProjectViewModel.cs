@@ -50,6 +50,11 @@ namespace MAUI.ClientProjectManagement.ViewModels
             Application.Current.OpenWindow(window);
         }
 
+        public ICommand ViewBillsCommand { get; private set; }
+        public void ExecuteViewBillsCommand(int id)
+        {
+            Shell.Current.GoToAsync($"//ProjectBill?projectId={id}");
+        }
         public void SetUpCommands()
         {
             DeleteProjectCommand = new Command(
@@ -59,6 +64,9 @@ namespace MAUI.ClientProjectManagement.ViewModels
                 (p) => ExecuteEdit((p as ProjectViewModel).Model.Id));
 
             TimerCommand = new Command(ExecuteTimerCommand);
+
+            ViewBillsCommand = new Command(
+                (p) => ExecuteViewBillsCommand((p as ProjectViewModel).Model.Id));
         }
 
         public ProjectViewModel()

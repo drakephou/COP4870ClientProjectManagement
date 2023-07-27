@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -79,7 +80,22 @@ namespace Library.ClientProjectManagement.Services
                 timeEntry.Hours = hours;
                 timeEntry.ProjectId = projectId;
                 timeEntry.EmployeeId = employeeId;
+         
+            
             }
+        }
+
+        public decimal CalculateTotalAmount(int projectId)
+        {
+            decimal totalAmount = 0;
+            foreach (var timeEntry in timeEntries)
+            {
+                if(timeEntry.ProjectId == projectId)
+                {
+                    totalAmount += timeEntry.Hours * EmployeeService.Current.GetEmployee(timeEntry.EmployeeId).Rate;
+                }
+            }
+            return totalAmount;
         }
     }
 }

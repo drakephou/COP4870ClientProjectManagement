@@ -1,4 +1,5 @@
-﻿using Library.ClientProjectManagement.Models;
+﻿using Library.ClientProjectManagement.DTO;
+using Library.ClientProjectManagement.Models;
 using Library.ClientProjectManagement.Services;
 using System;
 using System.Collections.Generic;
@@ -11,16 +12,13 @@ namespace MAUI.ClientProjectManagement.ViewModels
 {
     public class ClientViewModel
     {
-        public Client Model { get; set; }
+        public ClientDTO Model { get; set; }
         public string Display
         {
             get { return Model.ToString() ?? string.Empty; }
         }
 
-        public ClientViewModel() 
-        {
-            Model = new Client();
-        }
+        
 
         public ICommand DeleteClientCommand { get; private set; }
         public void ExecuteDelete(int id)
@@ -51,6 +49,12 @@ namespace MAUI.ClientProjectManagement.ViewModels
             ProjectService.Current.Filter(id);
         }
 
+        public ICommand ViewClientBillsCommand { get; private set; }
+        public void ExecuteViewClientBills(int id)
+        {
+            Shell.Current.GoToAsync($"//ClientBill?clientId={id}");
+        }
+
         public void SetupCommands()
         {
             DeleteClientCommand = new Command(
@@ -64,12 +68,20 @@ namespace MAUI.ClientProjectManagement.ViewModels
 
             FilterProjectsCommand = new Command(
                 (c) => ExecuteFilterProjects((c as ClientViewModel).Model.Id));
+
+            ViewClientBillsCommand = new Command(
+                (c) => ExecuteViewClientBills((c as ClientViewModel).Model.Id));
         }
 
-        public ClientViewModel(Client client)
+        public ClientViewModel(ClientDTO client)
         {
             Model = client;
             SetupCommands();
+        }
+        
+        public ClientViewModel() 
+        {
+            Model = new ClientDTO();
         }
     }
 }

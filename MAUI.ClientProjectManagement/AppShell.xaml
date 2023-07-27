@@ -62,4 +62,14 @@
         ContentTemplate="{DataTemplate local2:EditTimeEntryView}"
         Route="EditTimeEntry"/>
 
+    <ShellContent
+        Title="Showing Project Bills"
+        ContentTemplate="{DataTemplate local2:ProjectBillView}"
+        Route="ProjectBill"/>
+
+    <ShellContent
+        Title="Showing Client's Bills"
+        ContentTemplate="{DataTemplate local2:ClientBillView}"
+        Route="ClientBill"/>
+
 </Shell>

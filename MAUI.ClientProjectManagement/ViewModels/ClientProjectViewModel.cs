@@ -19,7 +19,7 @@ namespace MAUI.ClientProjectManagement.ViewModels
         {
             get
             {
-                if (SearchName != null)
+                if (SearchName != null && !SearchName.Equals(string.Empty))
                     return new ObservableCollection<ClientViewModel>
                         (ClientService
                         .Current.Search(SearchName)
@@ -57,6 +57,7 @@ namespace MAUI.ClientProjectManagement.ViewModels
         public Project SelectedProject { get; set; }
 
         //To be removed after implementing ways to pass data
+        /*
         public void PassSelectedClient()
         {
             ClientService.Current.SelectedClient = SelectedClient.Model;
@@ -67,7 +68,7 @@ namespace MAUI.ClientProjectManagement.ViewModels
         {
             ProjectService.Current.SelectedProject = SelectedProject;
         }
-
+        */
         /*
         public void DeleteClient()
         {
@@ -129,7 +130,8 @@ namespace MAUI.ClientProjectManagement.ViewModels
         public String SearchName { get; set; }
         public void Search()
         {
-            NotifyPropertyChanged("Clients");
+
+            NotifyPropertyChanged(nameof(Clients));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

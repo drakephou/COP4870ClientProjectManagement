@@ -76,5 +76,9 @@ namespace Library.ClientProjectManagement.Services
             }
         }
 
+        public Employee GetEmployee(int id)
+        {
+            return employees.FirstOrDefault(e => e.Id == id);
+        }
     }
 }

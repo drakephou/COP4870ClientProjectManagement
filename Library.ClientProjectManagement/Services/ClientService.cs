@@ -1,4 +1,7 @@
-﻿using Library.ClientProjectManagement.Models;
+﻿using Library.ClientProjectManagement.DTO;
+using Library.ClientProjectManagement.Models;
+using Library.ClientProjectManagement.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,43 +26,52 @@ namespace Library.ClientProjectManagement.Services
             }
         }
 
-        private List<Client> clients;
+        
 
        
         private ClientService()
         {
-            clients = new List<Client>();
-            clients.Add(new Client
-            {
-                Id = 1,
-                OpenDate = DateTime.Now,
-                ClosedDate = DateTime.Now,
-                IsActive = false,
-                Name = "Test1",
-                Notes = "Test1"
-            });
-            clients.Add( new Client
-            {
-                Id = 2,
-                OpenDate = DateTime.Now,
-                ClosedDate = DateTime.Now,
-                IsActive = false,
-                Name = "Test2",
-                Notes = "Test2"
-            }
-            );
+            //clients = new List<Client>();
+            //clients.Add(new Client
+            //{
+            //    Id = 1,
+            //    OpenDate = DateTime.Now,
+            //    ClosedDate = DateTime.Now,
+            //    IsActive = false,
+            //    Name = "Test1",
+            //    Notes = "Test1"
+            //});
+            //clients.Add( new Client
+            //{
+            //    Id = 2,
+            //    OpenDate = DateTime.Now,
+            //    ClosedDate = DateTime.Now,
+            //    IsActive = false,
+            //    Name = "Test2",
+            //    Notes = "Test2"
+            //}
+            //);
+
+            var response = new WebRequestHandler()
+                .Get("/Client")
+                .Result;
+            clients = JsonConvert
+                .DeserializeObject<List<ClientDTO>>(response) ?? new List<ClientDTO>();
         }
 
-        public List<Client> Clients
+        private List<ClientDTO> clients;
+        public List<ClientDTO> Clients
         { 
             get 
             {
-                return clients;
+                
+                return clients ?? new List<ClientDTO>();
             }
-            set { clients = value; }
+            //set { clients = value; }
         }
 
         //To be removed after implementing ways to pass ClientId
+        /*
         private Client? selectedClient;
         public Client? SelectedClient
         {
@@ -69,13 +81,23 @@ namespace Library.ClientProjectManagement.Services
             }
             set { selectedClient = value; }
         }
+        */
         
 
-        public Client? GetClient(int id)
-        { 
-            return clients.FirstOrDefault(e => e.Id == id);
+        public ClientDTO? GetClient(int id)
+        {
+            /*
+            var response = new WebRequestHandler()
+                .Get($"/Client/GetClients/{id}")
+                .Result;
+            var client = JsonConvert .DeserializeObject<Client>(response);
+            return client;
+            */
+
+            return Clients.FirstOrDefault(e => e.Id == id);
         }
 
+        /*
         public void Create()
         {
             bool formatCheck = true;
@@ -203,7 +225,7 @@ namespace Library.ClientProjectManagement.Services
             Console.WriteLine("Notes: ");
             String Notes = Console.ReadLine() ?? string.Empty;
 
-            clients.Add(new Client
+            Clients.Add(new Client
             {
                 Id = Id,
                 OpenDate = OpenDate,
@@ -219,11 +241,11 @@ namespace Library.ClientProjectManagement.Services
         public void Read()
         {
             Console.WriteLine("Listing all Clients");
-            clients.ForEach(Console.WriteLine);
+            Clients.ForEach(Console.WriteLine);
         }
         public void Update(int updateChoice) 
         {
-            var clientToUpdate = clients.FirstOrDefault(s => s.Id == updateChoice);
+            var clientToUpdate = Clients.FirstOrDefault(s => s.Id == updateChoice);
             if (clientToUpdate != null)
             {
                 bool formatCheck = true;
@@ -340,38 +362,74 @@ namespace Library.ClientProjectManagement.Services
                 Console.WriteLine("No Such Id in List of Clients; No Changes Made\n");
             }
         }
+        */
         public void Delete(int deleteChoice) 
         {
-            var clientToDelete = clients.FirstOrDefault(s => s.Id == deleteChoice);
+            /*
+            var response
+                = new WebRequestHandler().Delete($"/Client/Delete/{deleteChoice}").Result;
+            
+            ClientDTO? deletedClient = JsonConvert.DeserializeObject<ClientDTO>(response);
+            
+            if(deletedClient != null)
+            {
+                Clients.Remove(deletedClient);
+            }
+            */
+
+            
+            var clientToDelete = Clients.FirstOrDefault(s => s.Id == deleteChoice);
             if (clientToDelete != null)
             {
-                clients.Remove(clientToDelete);
-                Console.WriteLine("Client deleted from list.");
+                Clients.Remove(clientToDelete);
+                //Console.WriteLine("Client deleted from list.");
             }
+            
             else
             {
                 Console.WriteLine("Client Id not found. No changes made.");
             }
+            
+            
         }
         public void Delete(Client deleteClient)
         {
             Delete(deleteClient.Id);
         }
 
-        public List<Client> Search(string query)
+        public IEnumerable<ClientDTO> Search(string query)
         {
-            return Clients.Where(s => s.Name.ToUpper().Contains(query.ToUpper())).ToList();
+            QueryMessage queryMessage = new QueryMessage(query);
+            var response
+                = new WebRequestHandler().Post("/Client/Search", queryMessage).Result;
+            var myQueriedClients = JsonConvert.DeserializeObject<List<ClientDTO>>(response);
+            if (myQueriedClients != null)
+                return myQueriedClients;
+
+            return Clients;
+            //return Clients.Where(s => s.Name.ToUpper().Contains(query.ToUpper())).ToList();
         }
 
-        public void AddClient(Client client)
+        public void AddClient(ClientDTO client)
         {
-            Clients.Add(client);
+            var response 
+                = new WebRequestHandler().Post("/Client/Add", client).Result;
+            var myNewClient = JsonConvert.DeserializeObject<ClientDTO>(response);
+            if(myNewClient != null)
+            {
+                clients.Add(myNewClient);
+            }
+            
+
+            //Clients.Add(client);
         }
 
         public void EditClient(int id, DateTime OpenDate, DateTime ClosedDate,
             Boolean IsActive, String Name, String Notes)
         {
-            var clientToUpdate = clients.FirstOrDefault(s => s.Id == id);
+            
+            var clientToUpdate = Clients.FirstOrDefault(s => s.Id == id);
+            
             if (clientToUpdate != null)
             {
                 clientToUpdate.OpenDate = OpenDate;
@@ -379,6 +437,8 @@ namespace Library.ClientProjectManagement.Services
                 clientToUpdate.IsActive = IsActive;
                 clientToUpdate.Name = Name;
                 clientToUpdate.Notes = Notes;
+                var response
+                    = new WebRequestHandler().Post("/Client/Update", clientToUpdate).Result;
             }
         }
     }

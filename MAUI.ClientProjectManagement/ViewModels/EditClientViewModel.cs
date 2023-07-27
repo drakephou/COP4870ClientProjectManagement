@@ -1,4 +1,5 @@
-﻿using Library.ClientProjectManagement.Models;
+﻿using Library.ClientProjectManagement.DTO;
+using Library.ClientProjectManagement.Models;
 using Library.ClientProjectManagement.Services;
 using System;
 using System.Collections.Generic;
@@ -23,15 +24,18 @@ namespace MAUI.ClientProjectManagement.ViewModels
             ClosedMonth = SelectedClient.ClosedDate.Month;
             ClosedYear = SelectedClient.ClosedDate.Year;
         }
+
+        /*
         public ObservableCollection<Client> Clients
         {
             get
             {
-                return new ObservableCollection<Client>(ClientService.Current.Clients);
+                return new ObservableCollection<ClientDTO>(ClientService.Current.Clients);
             }
         }
+        */
 
-        public Client SelectedClient { get; set; }
+        public ClientDTO SelectedClient { get; set; }
 
         private int openMonth;
         public int OpenMonth{ get { return openMonth; }
@@ -99,6 +103,12 @@ namespace MAUI.ClientProjectManagement.ViewModels
                 ClosedDay = 1;
             else if (OpenDay > DateTime.DaysInMonth(ClosedYear, OpenMonth))
                 ClosedDay = DateTime.DaysInMonth(ClosedYear, OpenMonth);
+
+            if (SelectedClient.IsActive == null) SelectedClient.IsActive = false;
+
+            if (SelectedClient.Name == null) SelectedClient.Name = string.Empty;
+
+            if (SelectedClient.Notes == null) SelectedClient.Notes = string.Empty;
 
             ClientService.Current.EditClient(SelectedClient.Id,
                 new DateTime(OpenYear,OpenMonth,OpenDay),

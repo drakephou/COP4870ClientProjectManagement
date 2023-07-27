@@ -88,34 +88,59 @@
                         <ViewCell>
                             <Grid>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
                                     <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Column="0" Text="{Binding Path=Display}"/>
-                                <Button Grid.Column="1"
+
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <Button Grid.Column="0"
+                                            Grid.Row="0"
                                         Text="Add Project"
                                         Clicked="AddProjectClicked"
                                         Command="{Binding Path=AddProjectCommand}"
                                         CommandParameter="{Binding}"/>
-                                <Button Grid.Column="2"
+                                    <Button Grid.Column="1"
+                                            Grid.Row="0"
                                         Text="View Projects"
                                         Clicked="FilterClicked"
                                         Command="{Binding Path=FilterProjectsCommand}"
                                         CommandParameter="{Binding}"/>
-                                <Button Grid.Column="3"
+                                    <Button Grid.Column="2"
+                                            Grid.Row="0"
+                                            Text="View Bills"
+                                            Command="{Binding Path=ViewClientBillsCommand}"
+                                            CommandParameter="{Binding}"/>
+
+                                    <Button Grid.Column="1"
+                                            Grid.Row="1"
                                         Text="Edit"
                                         Clicked="EditClientClicked"
                                         Command="{Binding Path=EditClientCommand}"
                                         CommandParameter="{Binding}"/>
-                                        
-                                <Button Grid.Column="4"
+                                    <Button Grid.Column="2"
+                                            Grid.Row="1"
                                         Text="Delete"
                                         Command="{Binding Path=DeleteClientCommand}"
                                         CommandParameter="{Binding}"
                                         Clicked="DeleteClientClicked"/>
+                                </Grid>
+                                
+                                
+                                
+                                
+                                        
+                                
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
@@ -133,7 +158,8 @@
                         <ViewCell>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition/>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
@@ -146,11 +172,15 @@
                                         Command="{Binding Path=TimerCommand}"
                                         CommandParameter="{Binding}"/>
                                 <Button Grid.Column="2"
+                                        Text="View Bills"
+                                        Command="{Binding Path=ViewBillsCommand}"
+                                        CommandParameter="{Binding}"/>
+                                <Button Grid.Column="3"
                                         Text="Edit"
                                         Clicked="EditProjectClicked"
                                         Command="{Binding Path=EditProjectCommand}"
                                         CommandParameter="{Binding}"/>
-                                <Button Grid.Column="3"
+                                <Button Grid.Column="4"
                                         Text="Delete"
                                         Clicked="DeleteProjectClicked"
                                         Command="{Binding Path=DeleteProjectCommand}"
