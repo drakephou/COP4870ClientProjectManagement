@@ -8,8 +8,11 @@ namespace COP4870ClientProjectManagement.API.EC
     {
         public ClientDTO Add(ClientDTO dto)
         {
-            dto.Id = FakeDatabase.LastClientId + 1;
+            dto.Id = FakeDatabase.LastClientId + 1;//Filebase.Current.Clients.Count + 1;
             FakeDatabase.Clients.Add(new Client(dto));
+
+
+            //Filebase.Current.AddOrUpdate(new Client(dto));
 
             return dto;
         }
@@ -25,16 +28,18 @@ namespace COP4870ClientProjectManagement.API.EC
 
         public ClientDTO Update(ClientDTO dto)
         {
+
             var clientToUpdate
                 = FakeDatabase.Clients
                 .FirstOrDefault(c => c.Id == dto.Id);
             var index = FakeDatabase.Clients.IndexOf(clientToUpdate);
-            if(clientToUpdate != null && index != null)
+            if (clientToUpdate != null && index != null)
             {
                 FakeDatabase.Clients.RemoveAt(index);
                 FakeDatabase.Clients.Insert(index, new Client(dto));
             }
-            
+
+            //Filebase.Current.AddOrUpdate(new Client(dto));
 
             return dto;
         }

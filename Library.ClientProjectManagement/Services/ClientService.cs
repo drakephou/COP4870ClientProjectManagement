@@ -365,20 +365,20 @@ namespace Library.ClientProjectManagement.Services
         */
         public void Delete(int deleteChoice) 
         {
-            /*
+
             var response
                 = new WebRequestHandler().Delete($"/Client/Delete/{deleteChoice}").Result;
-            
             ClientDTO? deletedClient = JsonConvert.DeserializeObject<ClientDTO>(response);
-            
-            if(deletedClient != null)
-            {
-                Clients.Remove(deletedClient);
-            }
-            */
 
+            if (deletedClient != null)
+            {
+                var clientToDelete = Clients.FirstOrDefault(c => c.Id == deletedClient.Id);
+                Clients.Remove(clientToDelete);
+            }
             
-            var clientToDelete = Clients.FirstOrDefault(s => s.Id == deleteChoice);
+            
+
+            /*
             if (clientToDelete != null)
             {
                 Clients.Remove(clientToDelete);
@@ -389,7 +389,7 @@ namespace Library.ClientProjectManagement.Services
             {
                 Console.WriteLine("Client Id not found. No changes made.");
             }
-            
+            */
             
         }
         public void Delete(Client deleteClient)

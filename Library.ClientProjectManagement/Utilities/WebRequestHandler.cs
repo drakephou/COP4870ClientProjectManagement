@@ -42,9 +42,10 @@ namespace Library.ClientProjectManagement.Utilities
             var fullUrl = $"https://{host}:{port}{url}";
             try
             {
+
                 using (var client = new HttpClient())
                 {
-                    using (var request = new HttpRequestMessage(HttpMethod.Delete, url))
+                    using (var request = new HttpRequestMessage(HttpMethod.Delete, fullUrl))
                     {
                         using (var response = await client
                                     .SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
