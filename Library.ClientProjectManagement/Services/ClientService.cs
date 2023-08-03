@@ -55,8 +55,28 @@ namespace Library.ClientProjectManagement.Services
             var response = new WebRequestHandler()
                 .Get("/Client")
                 .Result;
-            clients = JsonConvert
+            if (response != null)
+            {
+                clients = JsonConvert
                 .DeserializeObject<List<ClientDTO>>(response) ?? new List<ClientDTO>();
+            }
+            else
+            {
+                var root = new DirectoryInfo(@"C:\Users\phdra\Desktop\COP4870\Clients");
+                clients = new List<ClientDTO>();
+                foreach (var clientFile in root.GetFiles())
+                {
+                    var client = JsonConvert.
+                        DeserializeObject<Client>
+                        (File.ReadAllText(clientFile.FullName));
+                    if (client != null)
+                    {
+                        clients.Add(new ClientDTO(client));
+                    }
+                }
+            }
+                
+            
         }
 
         private List<ClientDTO> clients;
@@ -365,15 +385,30 @@ namespace Library.ClientProjectManagement.Services
         */
         public void Delete(int deleteChoice) 
         {
-
-            var response
-                = new WebRequestHandler().Delete($"/Client/Delete/{deleteChoice}").Result;
-            ClientDTO? deletedClient = JsonConvert.DeserializeObject<ClientDTO>(response);
-
-            if (deletedClient != null)
+            try
             {
-                var clientToDelete = Clients.FirstOrDefault(c => c.Id == deletedClient.Id);
-                Clients.Remove(clientToDelete);
+                var response = new WebRequestHandler().Delete($"/Client/Delete/{deleteChoice}").Result;
+                ClientDTO? deletedClient = JsonConvert.DeserializeObject<ClientDTO>(response);
+
+                if (deletedClient != null)
+                {
+                    var clientToDelete = Clients.FirstOrDefault(c => c.Id == deletedClient.Id);
+                    Clients.Remove(clientToDelete);
+                }
+            }
+            catch (Exception ex)
+            {
+                var path = @$"C:\Users\phdra\Desktop\COP4870\Clients\{deleteChoice}.json";
+
+                //if the item has been previously persisted
+                if (File.Exists(path))
+                {
+                    //blow it up
+                    File.Delete(path);
+                    var clientToDelete = Clients.FirstOrDefault(c => c.Id == deleteChoice);
+                    Clients.Remove(clientToDelete);
+                }
+                
             }
             
             
@@ -399,26 +434,53 @@ namespace Library.ClientProjectManagement.Services
 
         public IEnumerable<ClientDTO> Search(string query)
         {
-            QueryMessage queryMessage = new QueryMessage(query);
-            var response
-                = new WebRequestHandler().Post("/Client/Search", queryMessage).Result;
-            var myQueriedClients = JsonConvert.DeserializeObject<List<ClientDTO>>(response);
-            if (myQueriedClients != null)
-                return myQueriedClients;
+            try
+            {
+                QueryMessage queryMessage = new QueryMessage(query);
+                var response
+                    = new WebRequestHandler().Post("/Client/Search", queryMessage).Result;
+                var myQueriedClients = JsonConvert.DeserializeObject<List<ClientDTO>>(response);
+                if (myQueriedClients != null)
+                    return myQueriedClients;
 
             return Clients;
-            //return Clients.Where(s => s.Name.ToUpper().Contains(query.ToUpper())).ToList();
+            }
+            catch (Exception ex)
+            {
+                return Clients.Where(s => s.Name.ToUpper().Contains(query.ToUpper())).ToList();
+            }
+            
         }
 
-        public void AddClient(ClientDTO client)
+        public void AddClient(ClientDTO dto)
         {
-            var response 
-                = new WebRequestHandler().Post("/Client/Add", client).Result;
-            var myNewClient = JsonConvert.DeserializeObject<ClientDTO>(response);
-            if(myNewClient != null)
+            try
             {
-                clients.Add(myNewClient);
+                var response 
+                = new WebRequestHandler().Post("/Client/Add", dto).Result;
+                var myNewClient = JsonConvert.DeserializeObject<ClientDTO>(response);
+                if(myNewClient != null)
+                {
+                    clients.Add(myNewClient);
+                }
             }
+            catch(Exception e)
+            {
+                var path = @$"C:\Users\phdra\Desktop\COP4870\Clients\{dto.Id}.json";
+
+                //if the item has been previously persisted
+                if (File.Exists(path))
+                {
+                    //blow it up
+                    File.Delete(path);
+                }
+
+                //write the file
+                File.WriteAllText(path, JsonConvert.SerializeObject(new Client(dto)));
+                clients.Add(dto);
+            }
+                
+            
             
 
             //Clients.Add(client);
@@ -437,8 +499,25 @@ namespace Library.ClientProjectManagement.Services
                 clientToUpdate.IsActive = IsActive;
                 clientToUpdate.Name = Name;
                 clientToUpdate.Notes = Notes;
-                var response
-                    = new WebRequestHandler().Post("/Client/Update", clientToUpdate).Result;
+                try
+                {
+                    var response = new WebRequestHandler().Post("/Client/Update", clientToUpdate).Result;
+                }
+                catch (Exception ex)
+                {
+                    var path = @$"C:\Users\phdra\Desktop\COP4870\Clients\{clientToUpdate.Id}.json";
+
+                    //if the item has been previously persisted
+                    if (File.Exists(path))
+                    {
+                        //blow it up
+                        File.Delete(path);
+                    }
+
+                    //write the file
+                    File.WriteAllText(path, JsonConvert.SerializeObject(clientToUpdate));
+                }
+                
             }
         }
     }

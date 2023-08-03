@@ -8,11 +8,14 @@ namespace COP4870ClientProjectManagement.API.EC
     {
         public ClientDTO Add(ClientDTO dto)
         {
-            dto.Id = FakeDatabase.LastClientId + 1;//Filebase.Current.Clients.Count + 1;
+            //dto.Id = FakeDatabase.Clients.Count + 1;
+            //FakeDatabase.Clients.Add(new Client(dto));
+
+
+            dto.Id = Filebase.Current.Clients.Count + 1;
+            Filebase.Current.AddOrUpdate(new Client(dto));
             FakeDatabase.Clients.Add(new Client(dto));
 
-
-            //Filebase.Current.AddOrUpdate(new Client(dto));
 
             return dto;
         }
@@ -22,7 +25,7 @@ namespace COP4870ClientProjectManagement.API.EC
             var returnVal = FakeDatabase.Clients
                 .FirstOrDefault(c => c.Id == id)
                 ?? new Client();
-
+            //var returnVal = Filebase.Current.Clients.FirstOrDefault(c => c.Id == id);
             return new ClientDTO(returnVal);
         }
 
@@ -39,7 +42,7 @@ namespace COP4870ClientProjectManagement.API.EC
                 FakeDatabase.Clients.Insert(index, new Client(dto));
             }
 
-            //Filebase.Current.AddOrUpdate(new Client(dto));
+            Filebase.Current.AddOrUpdate(new Client(dto));
 
             return dto;
         }
@@ -49,21 +52,35 @@ namespace COP4870ClientProjectManagement.API.EC
             var clientToDelete = FakeDatabase.Clients.FirstOrDefault(c => c.Id == id);
             if (clientToDelete != null)
             {
+                Filebase.Current.Delete($"{id}");
                 FakeDatabase.Clients.Remove(clientToDelete);
                 return new ClientDTO(clientToDelete);
             }
-            return clientToDelete!= null
+            return clientToDelete != null
                 ? new ClientDTO(clientToDelete)
                 : null;
+            
+            //var clientToDelete = Filebase.Current.Clients.FirstOrDefault(c => c.Id == id);
+            //return new ClientDTO(clientToDelete);
         }
 
         public IEnumerable<ClientDTO> Search(string query = "") 
         {
+            foreach (var client in FakeDatabase.Clients)
+            {
+                Filebase.Current.AddOrUpdate(client);
+            }
             return FakeDatabase.Clients.
                 Where(c => c.Name.ToUpper()
                 .Contains(query.ToUpper()))
                 .Take(1000)
                 .Select(c => new ClientDTO(c));
+
+            //return Filebase.Current.Clients.
+            //    Where(c => c.Name.ToUpper()
+            //    .Contains(query.ToUpper()))
+            //    .Take(1000)
+            //    .Select(c => new ClientDTO(c));
 
         }
     }

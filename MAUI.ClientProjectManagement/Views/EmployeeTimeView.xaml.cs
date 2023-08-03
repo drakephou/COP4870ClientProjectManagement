@@ -44,8 +44,12 @@ public partial class EmployeeTimeView : ContentPage
     }
     private void EditTimeEntryClicked(object sender, EventArgs e)
     {
-        (BindingContext as EmployeeTimeViewModel).PassSelectedTimeEntry();
-        Shell.Current.GoToAsync("//EditTimeEntry");
+        if( (BindingContext as EmployeeTimeViewModel).SelectedTimeEntry != null )
+        {
+            (BindingContext as EmployeeTimeViewModel).PassSelectedTimeEntry();
+            Shell.Current.GoToAsync("//EditTimeEntry");
+        }
+        
     }
     private void DeleteTimeEntryClicked(object sender, EventArgs e)
     {

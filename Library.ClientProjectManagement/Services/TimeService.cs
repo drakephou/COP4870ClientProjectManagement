@@ -57,15 +57,16 @@ namespace Library.ClientProjectManagement.Services
         public List<Time> TimeEntries
         { 
             get { return timeEntries; }
-            set { timeEntries = value; }
+            //set { timeEntries = value; }
         }
 
+        
         public Time? SelectedTimeEntry
         {
             get { return selectedTimeEntry; }
             set { selectedTimeEntry = value; }
         }
-
+        
         public void AddTimeEntry(Time timeEntry)
         { 
             timeEntries.Add(timeEntry); 

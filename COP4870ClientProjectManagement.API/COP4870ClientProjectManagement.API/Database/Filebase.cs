@@ -27,11 +27,12 @@ namespace COP4870ClientProjectManagement.API.Database
 
         private Filebase()
         {
-            _root = @"C:\temp";
+            _root = @"C:\Users\phdra\Desktop\COP4870";
             _clientRoot = $"{_root}\\Clients";
             _projectRoot = $"{_root}\\Projects";
             //TODO: Add support for employees, times, bills
         }
+
         private int LastClientId => Clients.Any() ? Clients.Select(c => c.Id).Max() : 0;
 
         public Client AddOrUpdate(Client c)
@@ -55,11 +56,6 @@ namespace COP4870ClientProjectManagement.API.Database
             //write the file
             File.WriteAllText(path, JsonConvert.SerializeObject(c));
 
-            //using (var fw = new FileStream(path, FileMode.Create))
-            //{
-            //    fw.Write(JsonConvert.SerializeObject(c));
-            //}
-
             //return the item, which now has an id
             return c;
         }
@@ -70,14 +66,14 @@ namespace COP4870ClientProjectManagement.API.Database
             {
                 var root = new DirectoryInfo(_clientRoot);
                 var _clients = new List<Client>();
-                foreach (var todoFile in root.GetFiles())
+                foreach (var clientFile in root.GetFiles())
                 {
-                    var todo = JsonConvert.
+                    var client = JsonConvert.
                         DeserializeObject<Client>
-                        (File.ReadAllText(todoFile.FullName));
-                    if(todo != null)
+                        (File.ReadAllText(clientFile.FullName));
+                    if(client != null)
                     {
-                        _clients.Add(todo);
+                        _clients.Add(client);
                     }
                 }
                 return _clients;
